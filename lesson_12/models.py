@@ -1,4 +1,3 @@
-
 from sqlalchemy import Integer, String, Column, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -30,7 +29,28 @@ class Address(Base):
     __tablename__ = "address"
     id = Column(Integer, primary_key=True)
     city = Column(String)
-    address = Column(Integer)
+    address = Column(String)
 
     user_id = Column(Integer, ForeignKey("user.id"))
     user = relationship("User", back_populates="addresses")
+
+
+class Product(Base):
+    __tablename__ = "product"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    price = Column(Integer)
+    ammount = Column(Integer)
+    comment = Column(String)
+
+    shoplist = relationship("Shoplist", back_populates="product")
+
+
+class Shoplist(Base):
+    __tablename__ = "shoplist"
+    id = Column(Integer, primary_key=True)
+    amount = Column(Integer)
+
+    user_id = Column(Integer, ForeignKey("user.id"))
+    product_id = Column(Integer, ForeignKey("product.id"))
+    product = relationship("Product", back_populates="shoplist")
